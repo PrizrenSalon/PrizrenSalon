@@ -1326,20 +1326,8 @@
   </div>
 
   <!-- REGISTER -->
-  <div class="register-section" id="register">
-    <div style="position:relative; z-index:1;">
-      <div class="cta-group reveal">
-        <a href="mailto:mikra.namani@gmail.com" class="btn btn-outline">Get in Touch</a>
-      </div>
-    </div>
-  </div>
+  <!-- CONTACT -->
 
-  <!-- ═══════════════════════════════════════════════════
-       CONTACT
-       To wire real submissions: swap the JS mock below
-       for a fetch() POST to Formspree, Netlify Forms,
-       or your own backend. See comment near form-note.
-  ════════════════════════════════════════════════════ -->
   <div class="contact-section" id="contact">
     <div class="contact-inner">
 
@@ -1368,23 +1356,25 @@
           </div>
 
           <!-- Form fields -->
-          <div id="formFields">
+          <form action="https://formsubmit.co/mikra.namani@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="Prizren Salon inquiry" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_next" value="https://www.prizrensalon.org" />
             <div class="form-row">
               <div class="form-group">
                 <label for="cf-name">Name</label>
-                <input type="text" id="cf-name" placeholder="Your name" required />
+                <input type="text" id="cf-name" name="name" placeholder="Your name" required />
               </div>
               <div class="form-group">
                 <label for="cf-email">Email</label>
-                <input type="email" id="cf-email" placeholder="your@email.com" required />
+                <input type="email" id="cf-email" name="email" placeholder="your@email.com" required />
               </div>
             </div>
 
             <div class="form-group">
               <label for="cf-subject">Subject</label>
-              <select id="cf-subject">
+              <select id="cf-subject" name="subject">
                 <option value="" disabled selected>Select a subject…</option>
-                
                 <option value="attend">Attending the Salon</option>
                 <option value="press">Press &amp; Media</option>
                 <option value="partner">Partnerships &amp; Sponsorship</option>
@@ -1392,28 +1382,14 @@
               </select>
             </div>
 
-            <!-- Shown only when "Apply to Read" is selected -->
-            <div class="form-group" id="cf-genre-group" style="display:none;">
-              <label for="cf-genre">Genre / Language</label>
-              <input type="text" id="cf-genre" placeholder="e.g. Poetry · Albanian" />
-            </div>
-
             <div class="form-group">
               <label for="cf-message">Message</label>
-              <textarea id="cf-message" rows="5" placeholder="Tell us about yourself or your inquiry…"></textarea>
+              <textarea id="cf-message" name="message" rows="5" placeholder="Tell us about yourself or your inquiry…"></textarea>
             </div>
 
-            <button class="form-submit" id="formBtn" type="button">Send Message</button>
-            <p class="form-note">
-              <!--
-                BACKEND: To use Netlify Forms, rename this div to <form
-                name="contact" data-netlify="true"> and remove the JS fetch mock.
-                To use Formspree: POST to https://formspree.io/f/YOUR_ID.
-                To use a custom API: POST to your own endpoint.
-              -->
-              Your information is used solely to respond to this inquiry.
-            </p>
-          </div>
+            <button class="form-submit" type="submit">Send Message</button>
+            <p class="form-note">Your information is used solely to respond to this inquiry.</p>
+          </form>
 
         </div>
       </div>
