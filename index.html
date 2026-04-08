@@ -1741,19 +1741,19 @@
         name: 'Ryan Ruby',
         origin: 'Berlin',
         img: 'images/ryan-ruby.jpeg',
-        text: 'Ryan Ruby is a critic, novelist, and essayist whose writing appears in major outlets including the New York Times, POETRY, the New Left Review and elsewhere. He is the author of the innovative verse‑essay Context Collapse, and the novel The Zero and the One (2017).'
+        text: 'Ryan Ruby is a critic, novelist, and essayist whose writing appears in major outlets including the New York Times, POETRY, the New Left Review and elsewhere. He is the author of the innovative verse&#8209;essay <em>Context Collapse</em>, and the novel <em>The Zero and the One</em> (2017).'
       },
       'ervina-halili': {
         name: 'Ervina Halili',
         origin: 'Prishtina',
         img: 'images/ervina-halili.jpeg',
-        text: 'Ervina Halili is a writer, poet, and researcher from Prishtina. She wrote her first poem at age eleven during the student protests at the University of Prishtina, now archived at the War Childhood Museum. She is the author of "They Are Not My Eyes" (2022), "The Milk Mountain," and The Octopus\'s Sleep and Amulet, recipient of the National Annual Prize.'
+        text: 'Ervina Halili is a writer, poet, and researcher from Prishtina. She wrote her first poem at age eleven during the student protests at the University of Prishtina, now archived at the War Childhood Museum. She is the author of <em>They Are Not My Eyes</em> (2022), <em>The Milk Mountain</em>, and <em>The Octopus\'s Sleep and Amulet</em>, recipient of the National Annual Prize.'
       },
       'joshua-furst': {
         name: 'Joshua Furst',
         origin: 'New York City',
         img: 'images/josh-furst.jpeg',
-        text: 'Joshua Furst is a novelist, short‑story writer, and professor of writing at Columbia University\'s School of the Arts. He is the author of the short story collection Short People, and the novels Revolutionaries and The Sabotage Café, which won him the 2008 Grub Street Fiction Prize. Josh lives in New York and this is the first time he is visiting Kosovo. Please welcome him.'
+        text: 'Joshua Furst is a novelist, short&#8209;story writer, and professor of writing at Columbia University\'s School of the Arts. He is the author of the short story collection <em>Short People</em>, and the novels <em>Revolutionaries</em> and <em>The Sabotage Café</em>, which won him the 2008 Grub Street Fiction Prize. Josh lives in New York and this is the first time he is visiting Kosovo. Please welcome him.'
       },
       'suzana-vuljevic': {
         name: 'Suzana Vuljevic',
@@ -1778,7 +1778,7 @@
         bioModalImg.alt     = bio.name;
         bioModalName.textContent   = bio.name;
         bioModalOrigin.textContent = bio.origin;
-        bioModalText.textContent   = bio.text;
+        bioModalText.innerHTML     = bio.text;
         bioModal.classList.add('open');
         document.body.style.overflow = 'hidden';
       });
