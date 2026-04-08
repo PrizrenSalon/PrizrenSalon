@@ -469,6 +469,101 @@
       margin-top: 0.3rem;
     }
 
+    /* ── READER BIO MODAL ── */
+    .reader-card[data-bio-key] {
+      cursor: pointer;
+    }
+    .reader-card[data-bio-key] .reader-portrait::after {
+      content: 'Read bio';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(46,31,15,0.72);
+      border-radius: 50%;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      color: var(--parchment);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .reader-card[data-bio-key]:hover .reader-portrait::after { opacity: 1; }
+
+    #bio-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(20,12,5,0.85);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    #bio-modal.open { display: flex; }
+    .bio-modal-inner {
+      background: var(--deep);
+      border: 1px solid rgba(155,74,30,0.3);
+      max-width: 560px;
+      width: 100%;
+      padding: 2.5rem;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .bio-modal-header {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      margin-bottom: 1.4rem;
+    }
+    .bio-modal-portrait {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .bio-modal-portrait img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+    .bio-modal-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      color: var(--parchment);
+    }
+    .bio-modal-origin {
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      margin-top: 0.2rem;
+      text-transform: uppercase;
+    }
+    .bio-modal-text {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: rgba(253,246,236,0.85);
+    }
+    .bio-modal-close {
+      position: absolute;
+      top: 0.9rem;
+      right: 1.1rem;
+      background: none;
+      border: none;
+      color: rgba(253,246,236,0.45);
+      font-size: 1.6rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0.2rem 0.4rem;
+      transition: color 0.15s;
+    }
+    .bio-modal-close:hover { color: var(--parchment); }
+
     /* ── VENUE ── */
     .venue-section {
       background: var(--parchment);
@@ -1184,7 +1279,7 @@
 
     <div class="readers-grid">
 
-      <div class="reader-card reveal">
+      <div class="reader-card reveal" data-bio-key="christian-lorentzen">
         <div class="reader-portrait">
           <img src="images/christian-lorentzen.jpeg" alt="Christian Lorentzen" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />
         </div>
@@ -1192,7 +1287,7 @@
         <p class="reader-origin">New York City</p>
       </div>
 
-      <div class="reader-card reveal">
+      <div class="reader-card reveal" data-bio-key="ryan-ruby">
         <div class="reader-portrait">
           <img src="images/ryan-ruby.jpeg" alt="Ryan Ruby" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />
         </div>
@@ -1200,7 +1295,7 @@
         <p class="reader-origin">Berlin</p>
       </div>
 
-      <div class="reader-card reveal">
+      <div class="reader-card reveal" data-bio-key="ervina-halili">
         <div class="reader-portrait">
           <img src="images/ervina-halili.jpeg" alt="Ervina Halili" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />
         </div>
@@ -1208,7 +1303,7 @@
         <p class="reader-origin">Prishtina</p>
       </div>
 
-      <div class="reader-card reveal">
+      <div class="reader-card reveal" data-bio-key="joshua-furst">
         <div class="reader-portrait">
           <img src="images/josh-furst.jpeg" alt="Joshua Furst" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />
         </div>
@@ -1216,7 +1311,7 @@
         <p class="reader-origin">New York City</p>
       </div>
 
-      <div class="reader-card reveal">
+      <div class="reader-card reveal" data-bio-key="suzana-vuljevic">
         <div class="reader-portrait">
           <img src="images/suzana-vuljevic.jpeg" alt="Suzana Vuljevic" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />
         </div>
@@ -1576,6 +1671,23 @@
     </div>
   </footer>
 
+  <!-- BIO MODAL -->
+  <div id="bio-modal" role="dialog" aria-modal="true" aria-labelledby="bioModalName">
+    <div class="bio-modal-inner">
+      <button class="bio-modal-close" id="bioModalClose" aria-label="Close">&times;</button>
+      <div class="bio-modal-header">
+        <div class="bio-modal-portrait">
+          <img id="bioModalImg" src="" alt="" />
+        </div>
+        <div>
+          <p class="bio-modal-name" id="bioModalName"></p>
+          <p class="bio-modal-origin" id="bioModalOrigin"></p>
+        </div>
+      </div>
+      <p class="bio-modal-text" id="bioModalText"></p>
+    </div>
+  </div>
+
   <script>
     // ── SCROLL REVEAL ──────────────────────────────────
     const revealEls = document.querySelectorAll('.reveal');
@@ -1678,6 +1790,70 @@
       success.style.display = 'block';
       success.style.animation = 'fadeUp 0.6s forwards';
     });
+
+    // ── BIO MODAL ──────────────────────────────────────
+    const BIOS = {
+      'christian-lorentzen': {
+        name: 'Christian Lorentzen',
+        origin: 'New York City',
+        img: 'images/christian-lorentzen.jpeg',
+        text: 'Christian Lorentzen is a literary critic whose work has appeared in many literary journals and magazines including The New York Times, Paris Review, London Review of Books, and elsewhere. He also has some Albanian blood in him.'
+      },
+      'ryan-ruby': {
+        name: 'Ryan Ruby',
+        origin: 'Berlin',
+        img: 'images/ryan-ruby.jpeg',
+        text: 'Ryan Ruby is a critic, novelist, and essayist whose writing appears in major outlets including the New York Times, POETRY, the New Left Review and elsewhere. He is the author of the innovative verse‑essay Context Collapse, and the novel The Zero and the One (2017).'
+      },
+      'ervina-halili': {
+        name: 'Ervina Halili',
+        origin: 'Prishtina',
+        img: 'images/ervina-halili.jpeg',
+        text: 'Ervina Halili is a writer, poet, and researcher from Prishtina. She wrote her first poem at age eleven during the student protests at the University of Prishtina, now archived at the War Childhood Museum. She is the author of "They Are Not My Eyes" (2022), "The Milk Mountain," and The Octopus\'s Sleep and Amulet, recipient of the National Annual Prize.'
+      },
+      'joshua-furst': {
+        name: 'Joshua Furst',
+        origin: 'New York City',
+        img: 'images/josh-furst.jpeg',
+        text: 'Joshua Furst is a novelist, short‑story writer, and professor of writing at Columbia University\'s School of the Arts. He is the author of the short story collection Short People, and the novels Revolutionaries and The Sabotage Café, which won him the 2008 Grub Street Fiction Prize. Josh lives in New York and this is the first time he is visiting Kosovo. Please welcome him.'
+      },
+      'suzana-vuljevic': {
+        name: 'Suzana Vuljevic',
+        origin: 'Chicago',
+        img: 'images/suzana-vuljevic.jpeg',
+        text: 'Suzana Vuljevic is a historian, writer, and literary translator from Albanian and the variants of Serbo-Croatian to English. She holds a Ph.D. in History and Comparative Literature from Columbia University. Her work has appeared in both academic and popular venues, including Asymptote, Undark, AGNI, Words Without Borders, and elsewhere. Currently, she teaches in the Albanian and Southeast European studies program at DePaul University in Chicago.'
+      }
+    };
+
+    const bioModal      = document.getElementById('bio-modal');
+    const bioModalClose = document.getElementById('bioModalClose');
+    const bioModalImg   = document.getElementById('bioModalImg');
+    const bioModalName  = document.getElementById('bioModalName');
+    const bioModalOrigin = document.getElementById('bioModalOrigin');
+    const bioModalText  = document.getElementById('bioModalText');
+
+    document.querySelectorAll('.reader-card[data-bio-key]').forEach(card => {
+      card.addEventListener('click', () => {
+        const bio = BIOS[card.dataset.bioKey];
+        if (!bio) return;
+        bioModalImg.src     = bio.img;
+        bioModalImg.alt     = bio.name;
+        bioModalName.textContent   = bio.name;
+        bioModalOrigin.textContent = bio.origin;
+        bioModalText.textContent   = bio.text;
+        bioModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeBioModal() {
+      bioModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    bioModalClose.addEventListener('click', closeBioModal);
+    bioModal.addEventListener('click', e => { if (e.target === bioModal) closeBioModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeBioModal(); } });
 
     // Smooth scroll for nav links (cross-browser / iOS fix)
     document.querySelectorAll('a[href^="#"]').forEach(link => {
