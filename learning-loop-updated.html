@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>An Integrated Framework – Learning Loop</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 1440px; height: 810px; overflow: hidden; background: #0c1a2e; }
+.slide { width: 1440px; height: 810px; display: flex; }
+.left-panel { width: 740px; height: 810px; background: #0c1a2e; position: relative; }
+.right-panel {
+  flex: 1; background: #f0ebe0;
+  padding: 55px 55px 40px 55px;
+  display: flex; flex-direction: column;
+}
+.title {
+  font-size: 54px; font-weight: 900; color: #0c1a2e;
+  line-height: 1.1; margin-bottom: 25px; padding-bottom: 20px;
+  border-bottom: 2.5px solid #0c1a2e;
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+.section { margin-bottom: 26px; display: flex; align-items: flex-start; gap: 16px; }
+.bar { width: 5px; min-height: 65px; flex-shrink: 0; margin-top: 2px; border-radius: 2px; }
+.section-title {
+  font-size: 13px; font-weight: 700; letter-spacing: 2.5px;
+  margin-bottom: 9px; font-family: 'Arial', sans-serif;
+}
+.section-body {
+  font-size: 19px; color: #1a2535; line-height: 1.45;
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="left-panel" id="leftPanel"></div>
+  <div class="right-panel">
+    <h1 class="title">An Integrated<br>Framework</h1>
+
+    <div class="section">
+      <div class="bar" style="background:#4ab068;"></div>
+      <div>
+        <div class="section-title" style="color:#4ab068;">PROJECT CYCLE</div>
+        <div class="section-body">The six-phase iterative process at the heart of the work.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="bar" style="background:#40b0a8;"></div>
+      <div>
+        <div class="section-title" style="color:#40b0a8;">KNOWLEDGE &amp; LEARNING</div>
+        <div class="section-body">The outer layer — foundation and beneficiary of the cycle.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="bar" style="background:#4ab068;"></div>
+      <div>
+        <div class="section-title" style="color:#4ab068;">↑&nbsp; UPWARD FLOW (green)</div>
+        <div class="section-body">K&amp;L flows up to inform, frame, and support each project phase.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="bar" style="background:#e8a030;"></div>
+      <div>
+        <div class="section-title" style="color:#e8a030;">↓&nbsp; RETURN FLOW (amber)</div>
+        <div class="section-body">Insights, data, and reflections flow back down to enrich K&amp;L.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const panel = document.getElementById('leftPanel');
+const W = 740, H = 810;
+const cx = 365, cy = 400;
+const outerR = 242, innerR = 113;
+
+const toRad = d => d * Math.PI / 180;
+const px = (r, deg) => cx + r * Math.cos(toRad(deg));
+const py = (r, deg) => cy + r * Math.sin(toRad(deg));
+const f  = n => n.toFixed(2);
+
+function segPath(oR, iR, s, e) {
+  const la = (e - s > 180) ? 1 : 0;
+  return [
+    `M ${f(px(oR,s))} ${f(py(oR,s))}`,
+    `A ${oR} ${oR} 0 ${la} 1 ${f(px(oR,e))} ${f(py(oR,e))}`,
+    `L ${f(px(iR,e))} ${f(py(iR,e))}`,
+    `A ${iR} ${iR} 0 ${la} 0 ${f(px(iR,s))} ${f(py(iR,s))}`,
+    'Z'
+  ].join(' ');
+}
+
+const segDefs = [
+  { label: ['Idea', 'Design'],          color: '#c85a48' },
+  { label: ['Proposal', 'Writing'],     color: '#d07848' },
+  { label: ['Activities', 'Design'],    color: '#4ab068' },
+  { label: ['Implemen-', 'tation'],     color: '#40b0a8' },
+  { label: ['Partnership', 'Learning'], color: '#5878c0' },
+  { label: ['Completion'],              color: '#7858c0' },
+];
+
+const GAP = 4, SEG = 26;
+const segAngles = segDefs.map((s, i) => {
+  const start = 180 + 2 + i * (SEG + GAP);
+  const end   = start + SEG;
+  return { ...s, start, end, mid: (start + end) / 2 };
+});
+
+const svgNS = 'http://www.w3.org/2000/svg';
+const svg = document.createElementNS(svgNS, 'svg');
+svg.setAttribute('width', W);
+svg.setAttribute('height', H);
+svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
+const defs = document.createElementNS(svgNS, 'defs');
+const radGrad = document.createElementNS(svgNS, 'radialGradient');
+radGrad.setAttribute('id', 'centerGrad');
+radGrad.setAttribute('cx', '38%'); radGrad.setAttribute('cy', '38%');
+[['0%','#2e1a88'],['100%','#0e0a44']].forEach(([offset, color]) => {
+  const s = document.createElementNS(svgNS, 'stop');
+  s.setAttribute('offset', offset); s.setAttribute('stop-color', color);
+  radGrad.appendChild(s);
+});
+defs.appendChild(radGrad);
+svg.appendChild(defs);
+
+const bg = document.createElementNS(svgNS, 'rect');
+bg.setAttribute('width', W); bg.setAttribute('height', H);
+bg.setAttribute('fill', '#0c1a2e');
+svg.appendChild(bg);
+
+const darkHalf = document.createElementNS(svgNS, 'path');
+const dR = outerR + 28;
+darkHalf.setAttribute('d', [
+  `M ${f(cx - dR)} ${f(cy)}`,
+  `A ${dR} ${dR} 0 0 0 ${f(cx + dR)} ${f(cy)}`,
+  `L ${f(cx + dR + 20)} ${f(cy)} L ${f(cx + dR + 20)} ${H}`,
+  `L ${f(cx - dR - 20)} ${H} L ${f(cx - dR - 20)} ${f(cy)} Z`
+].join(' '));
+darkHalf.setAttribute('fill', '#07111e');
+svg.appendChild(darkHalf);
+
+const ringBg = document.createElementNS(svgNS, 'circle');
+ringBg.setAttribute('cx', cx); ringBg.setAttribute('cy', cy);
+ringBg.setAttribute('r', outerR + 18);
+ringBg.setAttribute('fill', 'none');
+ringBg.setAttribute('stroke', '#162540');
+ringBg.setAttribute('stroke-width', '18');
+svg.appendChild(ringBg);
+
+const tickR = outerR + 18;
+for (let a = 184; a <= 356; a += 15) {
+  const mid = a + 6;
+  const pts = [
+    [tickR - 6, a], [tickR + 1, mid], [tickR - 6, a + 12]
+  ].map(([r, deg]) => `${f(px(r,deg))},${f(py(r,deg))}`).join(' ');
+  const ch = document.createElementNS(svgNS, 'polyline');
+  ch.setAttribute('points', pts);
+  ch.setAttribute('stroke', '#2a4060');
+  ch.setAttribute('stroke-width', '1.8');
+  ch.setAttribute('fill', 'none');
+  ch.setAttribute('stroke-linecap', 'round');
+  ch.setAttribute('stroke-linejoin', 'round');
+  svg.appendChild(ch);
+}
+
+segAngles.forEach(seg => {
+  const path = document.createElementNS(svgNS, 'path');
+  path.setAttribute('d', segPath(outerR, innerR, seg.start, seg.end));
+  path.setAttribute('fill', seg.color);
+  svg.appendChild(path);
+
+  const dot = document.createElementNS(svgNS, 'circle');
+  dot.setAttribute('cx', f(px(outerR - 10, seg.mid)));
+  dot.setAttribute('cy', f(py(outerR - 10, seg.mid)));
+  dot.setAttribute('r', '5');
+  dot.setAttribute('fill', '#0c1a2e');
+  dot.setAttribute('opacity', '0.55');
+  svg.appendChild(dot);
+
+  const labelR = (outerR + innerR) / 2;
+  const lx = px(labelR, seg.mid);
+  const ly = py(labelR, seg.mid);
+  const lines = seg.label;
+  const lineH = 15;
+
+  const txt = document.createElementNS(svgNS, 'text');
+  txt.setAttribute('text-anchor', 'middle');
+  txt.setAttribute('fill', '#ffffff');
+  txt.setAttribute('font-size', '12');
+  txt.setAttribute('font-weight', '700');
+  txt.setAttribute('font-family', 'Arial, sans-serif');
+  lines.forEach((line, i) => {
+    const ts = document.createElementNS(svgNS, 'tspan');
+    ts.setAttribute('x', f(lx));
+    ts.setAttribute('y', f(ly - ((lines.length - 1) * lineH / 2) + i * lineH));
+    ts.textContent = line;
+    txt.appendChild(ts);
+  });
+  svg.appendChild(txt);
+});
+
+const innerTickR = innerR - 14;
+for (let a = 8; a <= 172; a += 18) {
+  const mid = a + 8;
+  const pts = [
+    [innerTickR - 4, a], [innerTickR + 2, mid], [innerTickR - 4, a + 16]
+  ].map(([r, deg]) => `${f(px(r,deg))},${f(py(r,deg))}`).join(' ');
+  const ch = document.createElementNS(svgNS, 'polyline');
+  ch.setAttribute('points', pts);
+  ch.setAttribute('stroke', '#283c58');
+  ch.setAttribute('stroke-width', '1.5');
+  ch.setAttribute('fill', 'none');
+  ch.setAttribute('stroke-linecap', 'round');
+  ch.setAttribute('stroke-linejoin', 'round');
+  svg.appendChild(ch);
+}
+
+const centerRing = document.createElementNS(svgNS, 'circle');
+centerRing.setAttribute('cx', cx); centerRing.setAttribute('cy', cy);
+centerRing.setAttribute('r', innerR + 2);
+centerRing.setAttribute('fill', '#0c1a2e');
+centerRing.setAttribute('stroke', '#1c1060');
+centerRing.setAttribute('stroke-width', '4');
+svg.appendChild(centerRing);
+
+const centerCircle = document.createElementNS(svgNS, 'circle');
+centerCircle.setAttribute('cx', cx); centerCircle.setAttribute('cy', cy);
+centerCircle.setAttribute('r', innerR - 2);
+centerCircle.setAttribute('fill', 'url(#centerGrad)');
+centerCircle.setAttribute('stroke', '#3020a0');
+centerCircle.setAttribute('stroke-width', '2');
+svg.appendChild(centerCircle);
+
+function addText(content, x, y, size, weight, color, spacing) {
+  const el = document.createElementNS(svgNS, 'text');
+  el.setAttribute('x', x); el.setAttribute('y', y);
+  el.setAttribute('text-anchor', 'middle');
+  el.setAttribute('dominant-baseline', 'middle');
+  el.setAttribute('fill', color || '#fff');
+  el.setAttribute('font-size', size || '14');
+  el.setAttribute('font-weight', weight || 'normal');
+  el.setAttribute('font-family', 'Arial, sans-serif');
+  if (spacing) el.setAttribute('letter-spacing', spacing);
+  el.textContent = content;
+  svg.appendChild(el);
+  return el;
+}
+
+addText('THE',           cx, cy - 30, '10', 'normal', '#8890b8', '2');
+addText('PROJECT',       cx, cy - 12, '21', '900',    '#ffffff', '2');
+addText('CYCLE',         cx, cy + 12, '21', '900',    '#ffffff', '2');
+addText('LEARNING LOOP', cx, cy + 30, '9',  'normal', '#6070a8', '2');
+addText('education · dialogue', cx, cy + 44, '8', 'normal', '#3a4870', '1');
+
+const gArrow = document.createElementNS(svgNS, 'path');
+gArrow.setAttribute('d', 'M 78 688 C 52 520 44 290 78 122');
+gArrow.setAttribute('stroke', '#38c870');
+gArrow.setAttribute('stroke-width', '3');
+gArrow.setAttribute('fill', 'none');
+gArrow.setAttribute('stroke-linecap', 'round');
+svg.appendChild(gArrow);
+
+const gHead = document.createElementNS(svgNS, 'polygon');
+gHead.setAttribute('points', '78,110 70,132 86,132');
+gHead.setAttribute('fill', '#38c870');
+svg.appendChild(gHead);
+
+const gDot = document.createElementNS(svgNS, 'circle');
+gDot.setAttribute('cx', '78'); gDot.setAttribute('cy', '698');
+gDot.setAttribute('r', '7'); gDot.setAttribute('fill', '#38c870');
+svg.appendChild(gDot);
+
+const aArrow = document.createElementNS(svgNS, 'path');
+aArrow.setAttribute('d', 'M 652 122 C 678 290 686 520 652 688');
+aArrow.setAttribute('stroke', '#e8a030');
+aArrow.setAttribute('stroke-width', '3');
+aArrow.setAttribute('fill', 'none');
+aArrow.setAttribute('stroke-linecap', 'round');
+svg.appendChild(aArrow);
+
+const aHead = document.createElementNS(svgNS, 'polygon');
+aHead.setAttribute('points', '652,700 644,678 660,678');
+aHead.setAttribute('fill', '#e8a030');
+svg.appendChild(aHead);
+
+const aDot = document.createElementNS(svgNS, 'circle');
+aDot.setAttribute('cx', '652'); aDot.setAttribute('cy', '112');
+aDot.setAttribute('r', '7'); aDot.setAttribute('fill', '#e8a030');
+svg.appendChild(aDot);
+
+function addRotatedText(content, x, y, rotation, color) {
+  const el = document.createElementNS(svgNS, 'text');
+  el.setAttribute('x', x); el.setAttribute('y', y);
+  el.setAttribute('text-anchor', 'middle');
+  el.setAttribute('fill', color || '#2a4060');
+  el.setAttribute('font-size', '10');
+  el.setAttribute('font-weight', '600');
+  el.setAttribute('letter-spacing', '2');
+  el.setAttribute('font-family', 'Arial, sans-serif');
+  el.setAttribute('transform', `rotate(${rotation}, ${x}, ${y})`);
+  el.textContent = content;
+  svg.appendChild(el);
+}
+
+addRotatedText('KNOWLEDGE GROUNDS THE CYCLE  ↑', 38, 400, -90, '#2a4868');
+addRotatedText('CYCLE ENRICHES KNOWLEDGE  ↓',    702, 400,  90, '#2a4868');
+
+addText('KNOWLEDGE & LEARNING', cx, 722, '18', '800', '#d8e8f0', '2');
+addText('Foundation · Grows · Evolves with every project', cx, 742, '11', 'normal', '#506888', '1');
+addText('( provides grounding · receives new insights )', cx, 758, '10', 'normal', '#3a5070', '1');
+
+panel.appendChild(svg);
+</script>
+</body>
+</html>
