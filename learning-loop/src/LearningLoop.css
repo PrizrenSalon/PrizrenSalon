@@ -152,6 +152,49 @@
   box-shadow: var(--shadow);
 }
 
+/* Graph */
+:root {
+  --graph-correct: #16a34a;
+  --graph-wrong: #dc2626;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --graph-correct: #4ade80;
+    --graph-wrong: #f87171;
+  }
+}
+
+.ll-graph {
+  width: 100%;
+  max-width: 400px;
+  overflow: visible;
+}
+
+.ll-graph__label {
+  font-family: var(--mono);
+  font-size: 11px;
+  fill: var(--text);
+}
+
+.ll-graph-legend {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--text);
+  align-items: center;
+}
+
+.ll-legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.ll-legend-dot--correct { background: var(--graph-correct); }
+.ll-legend-dot--wrong   { background: var(--graph-wrong); }
+
 /* Summary screen */
 .ll-summary {
   display: flex;

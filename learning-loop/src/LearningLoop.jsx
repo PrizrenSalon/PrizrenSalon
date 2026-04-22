@@ -1,6 +1,39 @@
 import { useState } from 'react'
 import './LearningLoop.css'
 
+function ResultsGraph({ cards, scores }) {
+  const barWidth = 40
+  const gap = 16
+  const maxH = 120
+  const width = cards.length * (barWidth + gap) - gap
+  const height = maxH + 40
+
+  return (
+    <svg className="ll-graph" viewBox={`0 0 ${width} ${height}`} aria-label="Results chart">
+      {cards.map((card, i) => {
+        const knew = scores[card.id]
+        const barH = knew === undefined ? 20 : maxH
+        const fill = knew ? 'var(--graph-correct)' : knew === false ? 'var(--graph-wrong)' : 'var(--border)'
+        const x = i * (barWidth + gap)
+        const y = maxH - barH
+        return (
+          <g key={card.id}>
+            <rect x={x} y={y} width={barWidth} height={barH} rx={6} fill={fill} />
+            <text
+              x={x + barWidth / 2}
+              y={height - 8}
+              textAnchor="middle"
+              className="ll-graph__label"
+            >
+              {i + 1}
+            </text>
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
+
 const defaultCards = [
   { id: 1, question: 'What is a React component?', answer: 'A reusable piece of UI that accepts props and returns JSX.' },
   { id: 2, question: 'What hook manages local state in React?', answer: 'useState — returns a state value and a setter function.' },
@@ -68,11 +101,10 @@ export default function LearningLoop() {
           <p className="ll-score">
             {correct} / {total} correct
           </p>
-          <div className="ll-progress-bar">
-            <div
-              className="ll-progress-bar__fill"
-              style={{ width: `${(correct / total) * 100}%` }}
-            />
+          <ResultsGraph cards={cards} scores={scores} />
+          <div className="ll-graph-legend">
+            <span className="ll-legend-dot ll-legend-dot--correct" /> Got it
+            <span className="ll-legend-dot ll-legend-dot--wrong" /> Still learning
           </div>
           <button className="ll-btn ll-btn--primary" onClick={handleRestart}>
             Start over
