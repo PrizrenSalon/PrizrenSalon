@@ -1141,27 +1141,6 @@
       text-align: center;
     }
 
-    /* ── FUTURE FEATURE PLACEHOLDERS ── */
-    /*
-      To add a Newsletter signup section, insert a <section id="newsletter"> block
-      here and use Mailchimp / ConvertKit embed or API. Suggested placement: between
-      #register and #contact.
-
-      To add a Submissions Portal (writers uploading work samples), add a <section
-      id="submissions"> with a file-input form group wired to a backend endpoint
-      (e.g. Netlify Forms, Formspree, or your own API). Add "Submissions" to nav.
-
-      To add a Blog / News section for past-edition recaps, add <section id="news">
-      and loop over posts from a headless CMS (Contentful, Sanity, etc.) or a
-      simple JSON file fetched at runtime.
-
-      To add a Sponsors / Partners section, duplicate the readers-grid pattern with
-      logo images and add <section id="sponsors"> before the footer.
-
-      To add a multilingual toggle (Albanian / English), wrap all text nodes in
-      <span data-en="..." data-sq="..."> elements and toggle via a JS switcher in nav.
-    */
-
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
@@ -1173,6 +1152,7 @@
       .contact-form { padding: 2rem 1.5rem; }
     }
   </style>
+  <script src="images/portraits.js"></script>
 </head>
 
 <body>
@@ -1203,7 +1183,6 @@
       <p class="hero-sub">An Annual International Gathering of Writers and Readers &nbsp;·&nbsp; Prizren, Kosovo</p>
       <p class="hero-date">Aug 7 &amp; 8, 2026</p>
       <div class="cta-group">
-
         <a href="#program" class="btn btn-outline">See the 2026 Program</a>
       </div>
     </div>
@@ -1267,9 +1246,9 @@
           </div>
           <img src="images/baraca.jpeg" alt="BarAca at night, Prizren old bazaar" style="width:100%;margin-top:1.2rem;display:block;" />
         </div>
-      </div><!-- /program-days -->
-    </div><!-- /program-inner -->
-  </div><!-- /program-section -->
+      </div>
+    </div>
+  </div>
 
   <!-- READERS -->
   <section id="readers">
@@ -1283,7 +1262,7 @@
 
         <div class="reader-card reveal" data-bio-key="benjamin-libman">
           <div class="reader-portrait">
-            <img src="images/benjamin-libman.jpeg" alt="Benjamin Libman"
+            <img data-portrait="benjamin-libman" alt="Benjamin Libman"
               style="width:100%; height:100%; object-fit:cover; object-position:center top; border-radius:50%;" />
           </div>
           <p class="reader-name">Benjamin Libman</p>
@@ -1293,7 +1272,7 @@
 
         <div class="reader-card reveal" data-bio-key="tobias-ryan">
           <div class="reader-portrait">
-            <img src="images/tobias-ryan.jpeg" alt="Tobias Ryan"
+            <img data-portrait="tobias-ryan" alt="Tobias Ryan"
               style="width:100%; height:100%; object-fit:cover; object-position:center top; border-radius:50%;" />
           </div>
           <p class="reader-name">Tobias Ryan</p>
@@ -1303,7 +1282,7 @@
 
         <div class="reader-card reveal" data-bio-key="panagiotis-kehagias">
           <div class="reader-portrait">
-            <img src="images/panagiotis-kehagias.jpeg" alt="Panagiotis Kehagias"
+            <img data-portrait="panagiotis-kehagias" alt="Panagiotis Kehagias"
               style="width:100%; height:100%; object-fit:cover; object-position:center top; border-radius:50%;" />
           </div>
           <p class="reader-name">Panagiotis Kehagias</p>
@@ -1313,7 +1292,7 @@
 
         <div class="reader-card reveal" data-bio-key="lauren-oyler">
           <div class="reader-portrait">
-            <img src="images/lauren-oyler.jpeg" alt="Lauren Oyler"
+            <img data-portrait="lauren-oyler" alt="Lauren Oyler"
               style="width:100%; height:100%; object-fit:cover; object-position:center top; border-radius:50%;" />
           </div>
           <p class="reader-name">Lauren Oyler</p>
@@ -1400,9 +1379,9 @@
           <p class="reader-genre">Fiction</p>
         </div>
 
-      </div><!-- /readers-grid -->
-    </div><!-- /2025 edition -->
-  </section><!-- /#readers -->
+      </div>
+    </div>
+  </section>
 
   <!-- VENUE -->
   <div class="venue-section" id="venue">
@@ -1466,7 +1445,6 @@
     </div>
 
   </section>
-
 
   <!-- SECTION DIVIDER -->
   <div style="text-align:center; padding:2.5rem 0; background:var(--cream);">
@@ -1596,11 +1574,8 @@
   </div>
 
   <!-- CONTACT -->
-
   <div class="contact-section" id="contact">
     <div class="contact-inner">
-
-      <!-- Left col: contact info -->
       <div class="reveal">
         <p class="section-label">Get in Touch</p>
         <h2 class="section-title">Write<br /><em>to us</em></h2>
@@ -1610,18 +1585,14 @@
         </div>
       </div>
 
-      <!-- Right col: form -->
       <div class="reveal">
         <div class="contact-form">
-
-          <!-- Success state -->
           <div class="form-success" id="formSuccess">
             <p class="success-icon">❖</p>
             <p>Your message has been received.</p>
             <small>We'll be in touch within five working days.</small>
           </div>
 
-          <!-- Form fields -->
           <form action="https://formsubmit.co/mikra.namani@gmail.com" method="POST">
             <input type="hidden" name="_subject" value="Prizren Literary Salon inquiry" />
             <input type="hidden" name="_captcha" value="false" />
@@ -1656,10 +1627,8 @@
             <button class="form-submit" type="submit">Send Message</button>
             <p class="form-note">Your information is used solely to respond to this inquiry.</p>
           </form>
-
         </div>
       </div>
-
     </div>
   </div>
 
@@ -1796,25 +1765,25 @@
       'benjamin-libman': {
         name: 'Benjamin Libman',
         origin: 'Paris',
-        img: 'images/benjamin-libman.jpeg',
+        img: 'benjamin-libman',
         text: 'Benjamin Libman is the author of <em>Voyeur</em>, forthcoming with Coach House Books, and <em>The Third Solitude</em> (2025). He is the translator of two books by Gisèle Sapiro: <em>Can We Separate the Author From the Work?</em> forthcoming with Stanford University Press, and <em>The Sociology of Literature</em> (SUP 2023). He lives in Paris.'
       },
       'tobias-ryan': {
         name: 'Tobias Ryan',
         origin: 'Wales / France',
-        img: 'images/tobias-ryan.jpeg',
+        img: 'tobias-ryan',
         text: 'Tobias Ryan is a writer, translator, and editor from Wales (UK), living in France. His writing and translations have appeared in TOLKA Journal, Asymptote, Socrates on the Beach, Hyperion Magazine, and elsewhere. A novella, <em>GLANTZ</em>, was published by Equus Press in 2025. Alongside Yanina Spizzirri, he is Editor-in-Chief of minor literature[s].'
       },
       'panagiotis-kehagias': {
         name: 'Panagiotis Kehagias',
         origin: 'Athens',
-        img: 'images/panagiotis-kehagias.jpeg',
+        img: 'panagiotis-kehagias',
         text: 'Panagiotis Kehagias is a writer and translator based in Athens, Greece. His first book was a short story collection, <em>Final Warning</em> (Antipodes, 2016). The first volume of <em>the Sixth Desert</em>, his American trilogy, was published in June 2026 by Eris Press. His translations include William Faulkner\'s <em>As I Lay Dying</em>, Cormac McCarthy\'s <em>Child of God</em>, Greg Jackson\'s <em>Prodigals</em>, Herman Melville\'s <em>Billy Budd</em>, Denis Johnson\'s <em>Train Dreams</em> and <em>Jesus\' Son</em>, as well as Joshua Cohen\'s <em>Moving Kings</em> and <em>The Netanyahus</em>, and Isabella Hammad\'s <em>Recognizing the Stranger</em>. He is the founder of Gennitria Editions, a publishing house based in Athens.'
       },
       'lauren-oyler': {
         name: 'Lauren Oyler',
         origin: 'Berlin',
-        img: 'images/lauren-oyler.jpeg',
+        img: 'lauren-oyler',
         text: 'Lauren Oyler is the author of the novel <em>Fake Accounts</em> (2021) and the essay collection <em>No Judgment</em> (2024). Her writing appears regularly in the New Yorker, the New York Times, the London Review of Books, and many other publications, and she is a contributing editor of Harper\'s magazine. She lives in Berlin.'
       },
       'ena-selimovic': {
@@ -1836,10 +1805,11 @@
       card.addEventListener('click', () => {
         const bio = BIOS[card.dataset.bioKey];
         if (!bio) return;
-        bioModalImg.src              = bio.img || '';
+        const portraitSrc = bio.img ? ((window.PORTRAITS && window.PORTRAITS[bio.img]) || bio.img) : '';
+        bioModalImg.src              = portraitSrc;
         bioModalImg.alt              = bio.name;
-        bioModalImg.style.display    = bio.img ? '' : 'none';
-        bioModalImg.parentElement.style.display = bio.img ? '' : 'none';
+        bioModalImg.style.display    = portraitSrc ? '' : 'none';
+        bioModalImg.parentElement.style.display = portraitSrc ? '' : 'none';
         bioModalName.textContent   = bio.name;
         bioModalOrigin.textContent = bio.origin;
         bioModalText.innerHTML     = bio.text;
@@ -1869,5 +1839,11 @@
     });
   </script>
 
+  <script>
+    document.querySelectorAll('img[data-portrait]').forEach(function(img) {
+      var key = img.getAttribute('data-portrait');
+      if (window.PORTRAITS && window.PORTRAITS[key]) img.src = window.PORTRAITS[key];
+    });
+  </script>
 </body>
 </html>
