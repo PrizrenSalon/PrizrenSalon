@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prizren Literary Salon — Annual Literary Reading</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #1a1208;
+      --parchment: #f5ede0;
+      --sienna:    #9b4a1e;
+      --gold:      #c8922a;
+      --stone:     #7a6b58;
+      --cream:     #fdf6ec;
+      --deep:      #2e1f0f;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'EB Garamond', serif;
+      font-size: 18px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 3rem;
+      background: rgba(253, 246, 236, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(155, 74, 30, 0.18);
+    }
+
+    .nav-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      letter-spacing: 0.22em;
+      color: var(--sienna);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      color: var(--stone);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+
+    .nav-links a:hover { color: var(--sienna); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 8rem 2rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('images/baraca.jpeg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.22;
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 60%, rgba(200,146,42,0.10) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 20% 30%, rgba(155,74,30,0.07) 0%, transparent 60%);
+    }
+
+    /* Decorative arches */
+    .hero-arch {
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 260px;
+      border: 1.5px solid rgba(155,74,30,0.14);
+      border-radius: 450px 450px 0 0;
+      pointer-events: none;
+    }
+    .hero-arch:nth-child(2) { width: 680px; height: 200px; opacity: 0.6; }
+    .hero-arch:nth-child(3) { width: 480px; height: 150px; opacity: 0.35; }
+
+    .hero-ornament {
+      font-size: 1.1rem;
+      letter-spacing: 0.5em;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 1s 0.2s forwards;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: var(--deep);
+      opacity: 0;
+      animation: fadeUp 1s 0.4s forwards;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--sienna);
+    }
+
+    .hero-sub {
+      margin-top: 1.8rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.28em;
+      color: var(--stone);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 1s 0.65s forwards;
+    }
+
+    .hero-date {
+      margin-top: 2.5rem;
+      display: inline-block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-style: italic;
+      color: var(--sienna);
+      opacity: 0;
+      animation: fadeUp 1s 0.85s forwards;
+    }
+
+    .hero-date::before, .hero-date::after {
+      content: ' ❖ ';
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    .cta-group {
+      margin-top: 3rem;
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 1s 1.05s forwards;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2.4rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--sienna);
+      color: var(--cream);
+      border: 1.5px solid var(--sienna);
+    }
+    .btn-primary:hover { background: var(--deep); border-color: var(--deep); }
+
+    .btn-outline {
+      background: var(--sienna);
+      color: var(--cream);
+      border: 1.5px solid var(--sienna);
+      font-weight: 600;
+      letter-spacing: 0.12em;
+    }
+    .btn-outline:hover { background: var(--deep); border-color: var(--deep); color: var(--cream); }
+
+    /* ── DIVIDER ── */
+    .divider {
+      text-align: center;
+      padding: 2rem 0;
+      color: var(--gold);
+      font-size: 1.1rem;
+      letter-spacing: 0.6em;
+    }
+
+    /* ── SECTION LAYOUT ── */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--deep);
+      margin-bottom: 1.8rem;
+    }
+
+    .section-title em { font-style: italic; color: var(--sienna); }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-text p {
+      color: var(--stone);
+      margin-bottom: 1.2rem;
+      font-size: 1.08rem;
+    }
+
+    .about-image {
+      position: relative;
+    }
+
+    .about-frame {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background: linear-gradient(135deg, #e8d5b7 0%, #c9a97a 50%, #a67c52 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-frame::before {
+      content: '';
+      position: absolute;
+      inset: 12px;
+      border: 1.5px solid rgba(253,246,236,0.5);
+    }
+
+    .about-frame::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 65%;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 260'%3E%3Cpath fill='%232e1f0f' opacity='0.55' d='M0 260 L0 160 L30 160 L30 130 L50 80 Q100 30 150 80 L170 130 L170 160 L230 160 L230 130 L250 80 Q300 30 350 80 L370 130 L370 160 L400 160 L400 260 Z'/%3E%3Ccircle cx='100' cy='52' r='18' fill='%232e1f0f' opacity='0.4'/%3E%3Ccircle cx='300' cy='52' r='18' fill='%232e1f0f' opacity='0.4'/%3E%3Crect x='97' y='10' width='6' height='44' fill='%232e1f0f' opacity='0.45'/%3E%3Crect x='297' y='10' width='6' height='44' fill='%232e1f0f' opacity='0.45'/%3E%3C/svg%3E") bottom/cover no-repeat;
+    }
+
+    .about-caption {
+      margin-top: 0.8rem;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--stone);
+      text-align: center;
+    }
+
+    .about-frame-border {
+      position: absolute;
+      top: 8px; left: 8px;
+      right: -8px; bottom: -8px;
+      border: 1.5px solid rgba(155,74,30,0.25);
+      z-index: -1;
+    }
+
+    /* ── PROGRAM / SCHEDULE ── */
+    .program-section {
+      background: var(--deep);
+      color: var(--parchment);
+      max-width: 100%;
+      padding: 6rem 0;
+    }
+
+    .program-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .program-section .section-title { color: var(--parchment); }
+    .program-section .section-label { color: var(--gold); }
+
+    .program-days {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2px;
+      margin-top: 3rem;
+    }
+
+    .program-day {
+      background: rgba(253,246,236,0.04);
+      padding: 2.5rem 2rem;
+      border-top: 1.5px solid rgba(200,146,42,0.3);
+      transition: background 0.3s;
+    }
+
+    .program-day:hover { background: rgba(253,246,236,0.07); }
+
+    .day-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .day-date {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 300;
+      color: var(--parchment);
+      line-height: 1;
+      margin-bottom: 1.2rem;
+    }
+
+    .program-event {
+      padding: 0.7rem 0;
+      border-bottom: 1px solid rgba(253,246,236,0.08);
+    }
+
+    .event-time {
+      font-size: 0.8rem;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.15rem;
+    }
+
+    .event-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--parchment);
+    }
+
+    .event-meta {
+      font-size: 0.85rem;
+      color: rgba(253,246,236,0.5);
+    }
+
+    /* ── READERS ── */
+    .readers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .reader-card {
+      text-align: center;
+    }
+
+    .reader-portrait {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin: 0 auto 1.2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .reader-portrait-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+
+    .reader-card:nth-child(1) .reader-portrait-inner { background: linear-gradient(160deg, #c9a97a, #7a4f2a); }
+    .reader-card:nth-child(2) .reader-portrait-inner { background: linear-gradient(160deg, #b07d52, #5a3318); }
+    .reader-card:nth-child(3) .reader-portrait-inner { background: linear-gradient(160deg, #d4b48a, #9b4a1e); }
+    .reader-card:nth-child(4) .reader-portrait-inner { background: linear-gradient(160deg, #a87c52, #3e2010); }
+    .reader-card:nth-child(5) .reader-portrait-inner { background: linear-gradient(160deg, #c8922a, #7a4f2a); }
+    .reader-card:nth-child(6) .reader-portrait-inner { background: linear-gradient(160deg, #bf8a5c, #5c3018); }
+
+    .reader-portrait-inner::after {
+      content: attr(data-initials);
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-style: italic;
+      color: rgba(253,246,236,0.85);
+    }
+
+    .reader-portrait-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-style: italic;
+      color: rgba(253,246,236,0.85);
+    }
+
+    .reader-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      color: var(--deep);
+    }
+
+    .reader-origin {
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      color: var(--gold);
+      margin-top: 0.2rem;
+    }
+
+    .reader-genre {
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--stone);
+      margin-top: 0.3rem;
+    }
+
+    /* ── READER BIO MODAL ── */
+    .reader-card[data-bio-key] {
+      cursor: pointer;
+    }
+    .reader-card[data-bio-key] .reader-portrait::after {
+      content: 'Read bio';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(46,31,15,0.72);
+      border-radius: 50%;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      color: var(--parchment);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .reader-card[data-bio-key]:hover .reader-portrait::after { opacity: 1; }
+
+    #bio-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(20,12,5,0.85);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    #bio-modal.open { display: flex; }
+    .bio-modal-inner {
+      background: var(--deep);
+      border: 1px solid rgba(155,74,30,0.3);
+      max-width: 560px;
+      width: 100%;
+      padding: 2.5rem;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .bio-modal-header {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      margin-bottom: 1.4rem;
+    }
+    .bio-modal-portrait {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .bio-modal-portrait img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+    .bio-modal-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      color: var(--parchment);
+    }
+    .bio-modal-origin {
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      margin-top: 0.2rem;
+      text-transform: uppercase;
+    }
+    .bio-modal-text {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: rgba(253,246,236,0.85);
+    }
+    .bio-modal-close {
+      position: absolute;
+      top: 0.9rem;
+      right: 1.1rem;
+      background: none;
+      border: none;
+      color: rgba(253,246,236,0.45);
+      font-size: 1.6rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0.2rem 0.4rem;
+      transition: color 0.15s;
+    }
+    .bio-modal-close:hover { color: var(--parchment); }
+
+    /* ── VENUE ── */
+    .venue-section {
+      background: var(--parchment);
+      max-width: 100%;
+      padding: 6rem 0;
+    }
+
+    .venue-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .venue-map {
+      background: linear-gradient(145deg, #d4c4a8 0%, #b8a48a 100%);
+      aspect-ratio: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .venue-map::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cg fill='none' stroke='%23957854' stroke-width='1' opacity='0.5'%3E%3Crect x='30' y='30' width='340' height='340' rx='2'/%3E%3Crect x='50' y='50' width='300' height='300' rx='2'/%3E%3Cline x1='200' y1='50' x2='200' y2='350'/%3E%3Cline x1='50' y1='200' x2='350' y2='200'/%3E%3Crect x='80' y='80' width='80' height='60'/%3E%3Crect x='240' y='80' width='80' height='60'/%3E%3Crect x='80' y='260' width='80' height='60'/%3E%3Crect x='240' y='260' width='80' height='60'/%3E%3Crect x='160' y='165' width='80' height='70'/%3E%3Ccircle cx='200' cy='200' r='8' fill='%239b4a1e' stroke='%239b4a1e'/%3E%3Cpath d='M 200 200 L 200 160' stroke='%239b4a1e' stroke-width='1.5'/%3E%3C/g%3E%3Ctext x='200' y='148' text-anchor='middle' fill='%239b4a1e' font-size='9' font-family='Georgia'%3EPrizren%3C/text%3E%3C/svg%3E") center/cover;
+    }
+
+    .venue-photo-wrap {
+      position: relative;
+    }
+
+    .venue-photo {
+      width: 100%;
+      display: block;
+      aspect-ratio: 1;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .venue-map-label {
+      position: absolute;
+      bottom: 1rem; left: 1rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--parchment);
+      text-transform: uppercase;
+      background: rgba(46,31,15,0.55);
+      padding: 0.3rem 0.6rem;
+      backdrop-filter: blur(4px);
+    }
+
+    .venue-detail {
+      margin-top: 1.5rem;
+    }
+
+    .venue-detail p {
+      color: var(--stone);
+      margin-bottom: 1rem;
+    }
+
+    .venue-info-list {
+      margin-top: 2rem;
+      list-style: none;
+    }
+
+    .venue-info-list li {
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(155,74,30,0.15);
+      display: flex;
+      gap: 1.2rem;
+      align-items: flex-start;
+    }
+
+    .venue-info-icon {
+      color: var(--gold);
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+    }
+
+    .venue-info-text strong {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--sienna);
+      text-transform: uppercase;
+      margin-bottom: 0.15rem;
+    }
+
+    /* ── PAST EDITIONS ── */
+    .editions-strip {
+      display: flex;
+      gap: 1px;
+      overflow-x: auto;
+      margin-top: 3rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .edition-item {
+      flex: 0 0 180px;
+      background: var(--parchment);
+      padding: 1.5rem 1.2rem;
+      border-top: 2px solid var(--gold);
+      text-align: center;
+      transition: background 0.25s;
+    }
+
+    .edition-item:hover { background: #ead9c1; }
+
+    .edition-year {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      color: var(--deep);
+    }
+
+    .edition-readers {
+      font-size: 0.82rem;
+      color: var(--stone);
+      margin-top: 0.3rem;
+    }
+
+    /* ── REGISTER ── */
+    .register-section {
+      background: var(--sienna);
+      max-width: 100%;
+      padding: 6rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .register-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(200,146,42,0.2) 0%, transparent 70%);
+    }
+
+    .register-section .section-label { color: rgba(253,246,236,0.6); }
+    .register-section .section-title { color: var(--parchment); max-width: 600px; margin: 0 auto 1.5rem; }
+
+    .register-section p {
+      color: rgba(253,246,236,0.75);
+      max-width: 500px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .register-section .btn-primary {
+      background: var(--parchment);
+      color: var(--sienna);
+      border-color: var(--parchment);
+    }
+
+    .register-section .btn-primary:hover {
+      background: var(--deep);
+      color: var(--parchment);
+      border-color: var(--deep);
+    }
+
+    .register-section .btn-outline {
+      border-color: rgba(253,246,236,0.5);
+      color: var(--parchment);
+    }
+
+    .register-section .btn-outline:hover {
+      background: rgba(253,246,236,0.15);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--deep);
+      color: rgba(253,246,236,0.5);
+      padding: 3.5rem 2rem;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .footer-brand {
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .footer-tagline {
+      font-style: italic;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      color: rgba(253,246,236,0.4);
+      line-height: 1.6;
+    }
+
+    .footer-heading {
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li { margin-bottom: 0.6rem; }
+
+    .footer-links a {
+      color: rgba(253,246,236,0.5);
+      text-decoration: none;
+      font-size: 0.92rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 2.5rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(253,246,236,0.08);
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+    }
+
+    /* ── ANIMATE ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── PHOTO GALLERY ── */
+    .gallery-section {
+      background: var(--deep);
+      max-width: 100%;
+      padding: 6rem 0;
+    }
+
+    .gallery-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .gallery-section .section-label { color: var(--gold); }
+    .gallery-section .section-title { color: var(--parchment); }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto;
+      gap: 6px;
+      margin-top: 3rem;
+    }
+
+    .gallery-item {
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease, filter 0.4s ease;
+      filter: brightness(0.92) saturate(0.88);
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.04);
+      filter: brightness(1) saturate(1);
+    }
+
+    .gallery-item-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(46,31,15,0.75));
+      color: rgba(253,246,236,0.85);
+      font-style: italic;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      padding: 1.5rem 1rem 0.7rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .gallery-item:hover .gallery-item-caption { opacity: 1; }
+
+    .gi-1  { grid-column: 1 / 7;   grid-row: 1; aspect-ratio: 16/9; }
+    .gi-2  { grid-column: 7 / 13;  grid-row: 1; aspect-ratio: 16/9; }
+    .gi-3  { grid-column: 1 / 5;   grid-row: 2; aspect-ratio: 4/3; }
+    .gi-4  { grid-column: 5 / 9;   grid-row: 2; aspect-ratio: 4/3; }
+    .gi-5  { grid-column: 9 / 13;  grid-row: 2; aspect-ratio: 4/3; }
+    .gi-6  { grid-column: 1 / 5;   grid-row: 3; aspect-ratio: 4/3; }
+    .gi-7  { grid-column: 5 / 9;   grid-row: 3; aspect-ratio: 4/3; }
+    .gi-8  { grid-column: 9 / 13;  grid-row: 3; aspect-ratio: 4/3; }
+    .gi-9  { grid-column: 1 / 4;   grid-row: 4; aspect-ratio: 1; }
+    .gi-10 { grid-column: 4 / 7;   grid-row: 4; aspect-ratio: 1; }
+    .gi-11 { grid-column: 7 / 10;  grid-row: 4; aspect-ratio: 1; }
+    .gi-12 { grid-column: 10 / 13; grid-row: 4; aspect-ratio: 1; }
+
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(18,10,4,0.93);
+      z-index: 9000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 88vh;
+      object-fit: contain;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+    }
+
+    .lightbox-close {
+      position: fixed;
+      top: 1.5rem; right: 2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      color: var(--parchment);
+      cursor: pointer;
+      line-height: 1;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+      background: none;
+      border: none;
+    }
+
+    .lightbox-close:hover { opacity: 1; }
+
+    .lightbox-caption {
+      position: fixed;
+      bottom: 2rem; left: 50%;
+      transform: translateX(-50%);
+      font-style: italic;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: rgba(253,246,236,0.6);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 768px) {
+      .gallery-grid { grid-template-columns: 1fr 1fr; gap: 4px; }
+      .gi-1, .gi-2, .gi-3, .gi-4, .gi-5, .gi-6, .gi-7, .gi-8, .gi-9, .gi-10, .gi-11, .gi-12 {
+        grid-column: auto;
+        grid-row: auto;
+        aspect-ratio: 1;
+      }
+    }
+
+    /* ── CONTACT FORM ── */
+    .contact-section {
+      background: var(--cream);
+      max-width: 100%;
+      padding: 6rem 0;
+      border-top: 1px solid rgba(155,74,30,0.12);
+    }
+
+    .contact-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 6rem;
+      align-items: start;
+    }
+
+    .contact-info p {
+      color: var(--stone);
+      margin-bottom: 1rem;
+      font-size: 1.05rem;
+    }
+
+    .contact-channels {
+      margin-top: 2rem;
+      list-style: none;
+    }
+
+    .contact-channels li {
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(155,74,30,0.13);
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .contact-channels .ch-icon { color: var(--gold); }
+    .contact-channels .ch-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      color: var(--sienna);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.1rem;
+    }
+
+    .contact-channels a {
+      color: var(--stone);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .contact-channels a:hover { color: var(--sienna); }
+
+    .contact-form {
+      background: var(--parchment);
+      padding: 3rem 2.8rem;
+      border-top: 3px solid var(--gold);
+      position: relative;
+    }
+
+    .contact-form::after {
+      content: '';
+      position: absolute;
+      bottom: -6px; right: -6px;
+      left: 6px; top: 6px;
+      border: 1px solid rgba(155,74,30,0.15);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.4rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--sienna);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: var(--cream);
+      border: 1px solid rgba(155,74,30,0.25);
+      border-radius: 0;
+      padding: 0.75rem 1rem;
+      font-family: 'EB Garamond', serif;
+      font-size: 1rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239b4a1e' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--sienna);
+      box-shadow: 0 0 0 3px rgba(155,74,30,0.08);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(122,107,88,0.5);
+      font-style: italic;
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 1rem;
+      background: var(--sienna);
+      color: var(--cream);
+      border: none;
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 0.5rem;
+    }
+
+    .form-submit:hover { background: var(--deep); }
+    .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    .form-success .success-icon {
+      font-size: 2.2rem;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .form-success p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--deep);
+    }
+
+    .form-success small {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.88rem;
+      color: var(--stone);
+    }
+
+    .form-note {
+      font-size: 0.8rem;
+      color: var(--stone);
+      font-style: italic;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .about-grid, .venue-inner, .footer-inner,
+      .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      section { padding: 4rem 1.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .contact-form { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">Prizren Literary Salon</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#program">Program</a></li>
+      <li><a href="#readers">Readers</a></li>
+      <li><a href="#venue">Prizren</a></li>
+      <li><a href="#register">Register</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-arch"></div>
+    <div class="hero-arch"></div>
+    <div class="hero-arch"></div>
+
+    <div style="position:relative; z-index:1;">
+      <p class="hero-ornament">❖ &nbsp; &nbsp; ❖ &nbsp; &nbsp; ❖</p>
+      <h1>Prizren <em>Literary Salon</em></h1>
+      <p class="hero-sub">An Annual International Gathering of Writers and Readers &nbsp;·&nbsp; Prizren, Kosovo</p>
+      <p class="hero-date">Aug 7 &amp; 8, 2026</p>
+      <div class="cta-group">
+        <a href="#program" class="btn btn-outline">See the 2026 Program</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">❖ &nbsp; &nbsp; ❖ &nbsp; &nbsp; ❖</div>
+
+  <!-- ABOUT -->
+  <section id="about" style="padding: 3rem 2rem;">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p class="section-label">The Story</p>
+
+        <p>
+          It started as a casual summer dinner with friends — Christian Lorentzen, Lily Lynch, Mikra Namani, Valdete Berisha, and Michael Barron — getting together to talk literature and stuff, drink and eat until late, and now we’re here. At the heart of it the Prizren Literary Salon, founded by Mikra Namani and Valdete Berisha, is about literature, reading, and writing. It brings together regional and international writers and poets in Prizren, Kosovo, for a two-day visit which coincides with Dokufest, an international documentary and short film festival. The central focus of the visit is a literary evening organized on the second day, featuring several writers reading from their work — novels, essays, poetry, and more. Last year’s edition welcomed writers, novelists, poets, translators, and critics, including Christian Lorentzen (NYC), Ryan Ruby (Berlin), Josh Furst (NYC), Suzana Vuljevic (Chicago), and Kosovar poet Ervina Halili.
+        </p>
+        <p>
+          The 2026 readers will be announced in the coming weeks while the reading is scheduled to take place on Aug 8, at 6PM at the iconic BarAca venue in old town Prizren.
+        </p>
+        <p>
+          Please click <a href="#register" style="color:var(--sienna);">here</a> to register to receive updates and future invites.
+        </p>
+      </div>
+      <div class="about-image reveal">
+        <img src="images/about-reading.jpeg" alt="Reading at BarAca" style="width:100%; height:280px; object-fit:cover; display:block;" />
+        <p class="about-caption">Christian Lorentzen, Mikra Namani, Ryan Ruby — Prizren Literary Salon, August 2025</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAM -->
+  <div class="program-section" id="program">
+    <div class="program-inner">
+      <p class="section-label reveal">2026 Program</p>
+      <h2 class="section-title reveal">Two evenings,<br /><em>7 &amp; 8 August</em></h2>
+
+      <div class="program-days">
+
+        <div class="program-day reveal">
+          <p class="day-label">Friday</p>
+          <p class="day-date">August 7</p>
+          <div class="program-event">
+            <p class="event-time">18:00</p>
+            <p class="event-title">Dinner at Hani i Vjeter</p>
+            <p class="event-meta" style="margin-top:0.4rem; color:var(--gold); letter-spacing:0.05em;">(Only for Organizers and Readers)</p>
+            <p class="event-meta">Old town, Prizren · beside the Stone Bridge on the Bistrica river</p>
+            <p class="event-meta" style="margin-top:0.5rem;">From the bazaar, walk south along Sheshi Shatërvani square and follow the river path — the inn’s wooden terrace overhangs the water. A five-minute walk from the League of Prizren.</p>
+            <p class="event-meta" style="margin-top:0.5rem;">Hani i Vjeter (“The Old Inn”) serves traditional Albanian and Ottoman-influenced cuisine: slow-roasted lamb, flija (layered crêpe pie), tave kosi (baked yoghurt and lamb), fresh flatbreads baked in the oven, and local Sharr mountain cheeses.</p>
+          </div>
+          <img src="images/dinner.jpeg" alt="Dinner at Hani i Vjeter" style="width:100%;margin-top:1.2rem;display:block;" />
+        </div>
+
+        <div class="program-day reveal">
+          <p class="day-label">Saturday</p>
+          <p class="day-date">August 8</p>
+          <div class="program-event">
+            <p class="event-time">18:00</p>
+            <p class="event-title">Reading at BarAca</p>
+            <p class="event-meta"><a href="#readers-2026" style="color:var(--gold); text-decoration:underline; text-underline-offset:3px;">The 2026 Lineup</a></p>
+            <p class="event-meta" style="margin-top:0.4rem; color:var(--gold); letter-spacing:0.05em;">Open to Public</p>
+          </div>
+          <img src="images/baraca.jpeg" alt="BarAca at night, Prizren old bazaar" style="width:100%;margin-top:1.2rem;display:block;" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- READERS -->
+  <section id="readers">
+
+    <!-- 2026 Edition -->
+    <div id="readers-2026" style="margin-bottom:5rem;">
+      <p class="section-label reveal">2026 Edition</p>
+      <h2 class="section-title reveal">The 2026<br /><em>Lineup</em></h2>
+
+      <div class="readers-grid">
+
+        <div class="reader-card reveal" data-bio-key="benjamin-libman">
+          <div class="reader-portrait">
+            <img src="images/benjamin-libman.jpeg" alt="Benjamin Libman"
+              style="width:100%; height:100%; object-fit:cover; object-position:center top; border-radius:50%;" />
+          </div>
+          <p class="reader-name">Benjamin Libman</p>
+          <p class="reader-origin">Paris</p>
+          <p class="reader-genre">Fiction · Translation</p>
+        </div>
+
+        <div class="reader-card reveal" data-bio-key="tobias-ryan">
+          <div class="reader-portrait">
+            <img src="images/tobias-ryan.jpeg" alt="Tobias Ryan"
+              style="width:100%; height:100%; object-fit:cover; object-position:center top; border-radius:50%;" />
+          </div>
+          <p class="reader-name">Tobias Ryan</p>
+          <p class="reader-origin">Wales / France</p>
+          <p class="reader-genre">Fiction · Translation</p>
+        </div>
+
+        <div class="reader-card reveal" data-bio-key="panagiotis-kehagias">
+          <div class="reader-portrait">
+            <img src="images/panagiotis-kehagias.jpeg" alt="Panagiotis Kehagias"
+              style="width:100%; height:100%; object-fit:cover; object-position:center top; border-radius:50%;" />
+          </div>
+          <p class="reader-name">Panagiotis Kehagias</p>
+          <p class="reader-origin">Athens</p>
+          <p class="reader-genre">Fiction · Translation</p>
+        </div>
+
+        <div class="reader-card reveal" data-bio-key="lauren-oyler">
+          <div class="reader-portrait">
+            <img src="images/lauren-oyler.jpeg" alt="Lauren Oyler"
+              style="width:100%; height:100%; object-fit:cover; object-position:center top; border-radius:50%;" />
+          </div>
+          <p class="reader-name">Lauren Oyler</p>
+          <p class="reader-origin">Berlin</p>
+          <p class="reader-genre">Fiction · Criticism</p>
+        </div>
+
+        <div class="reader-card reveal" data-bio-key="ena-selimovic">
+          <div class="reader-portrait">
+            <div class="reader-portrait-inner">E S</div>
+          </div>
+          <p class="reader-name">Ena Selimović</p>
+          <p class="reader-origin">USA</p>
+          <p class="reader-genre">Translation · Criticism</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 2025 Edition -->
+    <div style="border-top:1px solid rgba(155,74,30,0.15); padding-top:4rem;">
+      <p class="section-label reveal">2025 Edition</p>
+      <h2 class="section-title reveal">Readers from the<br /><em>2025 edition</em></h2>
+
+      <div class="readers-grid">
+
+        <div class="reader-card reveal" data-bio-key="christian-lorentzen">
+          <div class="reader-portrait">
+            <img src="images/christian-lorentzen.jpeg" alt="Christian Lorentzen"
+              style="width:100%; height:100%; object-fit:cover; object-position:center top; border-radius:50%;" />
+          </div>
+          <p class="reader-name">Christian Lorentzen</p>
+          <p class="reader-origin">New York City</p>
+          <p class="reader-genre">Criticism</p>
+        </div>
+
+        <div class="reader-card reveal" data-bio-key="ryan-ruby">
+          <div class="reader-portrait">
+            <img src="images/ryan-ruby.jpeg" alt="Ryan Ruby"
+              style="width:100%; height:100%; object-fit:cover; object-position:center top; border-radius:50%;" />
+          </div>
+          <p class="reader-name">Ryan Ruby</p>
+          <p class="reader-origin">Berlin</p>
+          <p class="reader-genre">Fiction · Criticism</p>
+        </div>
+
+        <div class="reader-card reveal" data-bio-key="joshua-furst">
+          <div class="reader-portrait">
+            <img src="images/josh-furst.jpeg" alt="Joshua Furst"
+              style="width:100%; height:100%; object-fit:cover; object-position:center top; border-radius:50%;" />
+          </div>
+          <p class="reader-name">Joshua Furst</p>
+          <p class="reader-origin">New York City</p>
+          <p class="reader-genre">Fiction</p>
+        </div>
+
+        <div class="reader-card reveal" data-bio-key="ervina-halili">
+          <div class="reader-portrait">
+            <img src="images/ervina-halili.jpeg" alt="Ervina Halili"
+              style="width:100%; height:100%; object-fit:cover; object-position:center top; border-radius:50%;" />
+          </div>
+          <p class="reader-name">Ervina Halili</p>
+          <p class="reader-origin">Prishtina</p>
+          <p class="reader-genre">Poetry</p>
+        </div>
+
+        <div class="reader-card reveal" data-bio-key="suzana-vuljevic">
+          <div class="reader-portrait">
+            <img src="images/suzana-vuljevic.jpeg" alt="Suzana Vuljevic"
+              style="width:100%; height:100%; object-fit:cover; object-position:center top; border-radius:50%;" />
+          </div>
+          <p class="reader-name">Suzana Vuljevic</p>
+          <p class="reader-origin">Chicago</p>
+          <p class="reader-genre">Translation · History</p>
+        </div>
+
+        <div class="reader-card reveal" data-bio-key="mikra-namani">
+          <div class="reader-portrait">
+            <img src="images/mikra-namani.jpeg" alt="Mikra Namani"
+              style="width:100%; height:100%; object-fit:cover; object-position:center top; border-radius:50%;" />
+          </div>
+          <p class="reader-name">Mikra Namani</p>
+          <p class="reader-origin">Washington, DC</p>
+          <p class="reader-genre">Fiction</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- VENUE -->
+  <div class="venue-section" id="venue">
+    <div class="venue-inner">
+      <div class="reveal">
+        <p class="section-label">Venue</p>
+        <h2 class="section-title">Prizren,<br /><em>Kosovo</em></h2>
+        <div class="venue-detail">
+          <p>
+            Prizren is Kosovo’s second largest city, located on the slopes of the Sharr Mountains in the southwest of the country. First mentioned in records in 1019 during the reign of Emperor Basil II, the city has served for centuries as a crossroads of cultures, faiths, and languages. Its preserved Ottoman old town, medieval fortress, and landmarks such as the Sinan Pasha Mosque and the UNESCO World Heritage Site of Our Lady of Ljeviš make it one of the most historically rich cities in the Western Balkans.
+          </p>
+          <ul class="venue-info-list">
+            <li>
+              <span class="venue-info-icon">❖</span>
+              <span class="venue-info-text">
+                <strong>Primary Venue</strong>
+                BarAca · Marin Barleti St, Prizren 20000, Kosovo
+              </span>
+            </li>
+            <li>
+              <span class="venue-info-icon">❖</span>
+              <span class="venue-info-text">
+                <strong>Getting There</strong>
+                Prishtina Airport (PRN) — 85 km · Tirana Airport (TIA) — 170 km
+              </span>
+            </li>
+            <li>
+              <span class="venue-info-icon">❖</span>
+              <span class="venue-info-text">
+                <strong>Language</strong>
+                Readings are primarily in English and Albanian.
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="venue-photo-wrap">
+          <img src="images/prizren-night.jpeg" alt="Sinan Pasha Mosque at night, Prizren" class="venue-photo" />
+          <p class="venue-map-label">Prizren by night · Sinan Pasha Mosque</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAST EDITIONS -->
+  <section>
+    <h2 class="section-title reveal">Past <em>Editions</em></h2>
+    <div class="editions-strip">
+      <div class="edition-item reveal">
+        <p class="edition-year">2025</p>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:2.5rem; position:relative; width:100%; padding-bottom:56.25%; height:0; overflow:hidden;">
+      <iframe src="https://www.youtube.com/embed/xsJqz0csu5c"
+        style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+  </section>
+
+  <!-- SECTION DIVIDER -->
+  <div style="text-align:center; padding:2.5rem 0; background:var(--cream);">
+    <span style="color:var(--gold); font-size:1rem; letter-spacing:0.8em;">❖ &nbsp; ❖ &nbsp; ❖</span>
+  </div>
+
+  <!-- PHOTO GALLERY -->
+  <div class="gallery-section">
+    <div class="gallery-inner">
+      <p class="section-label reveal">From the Salon</p>
+      <h2 class="section-title reveal">Prizren, <em>August 2025</em></h2>
+
+      <div class="gallery-grid">
+
+        <div class="gallery-item gi-1 reveal" data-src="images/prizren-night.jpeg" data-caption="Prizren at night — August 2025">
+          <img src="images/prizren-night.jpeg" alt="Prizren at night" loading="lazy" />
+          <p class="gallery-item-caption">Prizren at night</p>
+        </div>
+
+        <div class="gallery-item gi-2 reveal" data-src="images/baraca.jpeg" data-caption="BarAca — Prizren, August 2025">
+          <img src="images/baraca.jpeg" alt="BarAca, the reading venue" loading="lazy" />
+          <p class="gallery-item-caption">BarAca</p>
+        </div>
+
+        <div class="gallery-item gi-3 reveal" data-src="images/salon1.jpeg" data-caption="At the reading — Prizren, August 2025">
+          <img src="images/salon1.jpeg" alt="Reading at the salon" loading="lazy" />
+          <p class="gallery-item-caption">At the reading</p>
+        </div>
+
+        <div class="gallery-item gi-4 reveal" data-src="images/salon3.jpeg" data-caption="At the reading — Prizren, August 2025">
+          <img src="images/salon3.jpeg" alt="Reading at the salon" loading="lazy" />
+          <p class="gallery-item-caption">At the reading</p>
+        </div>
+
+        <div class="gallery-item gi-5 reveal" data-src="images/salon4.jpeg" data-caption="At the reading — Prizren, August 2025">
+          <img src="images/salon4.jpeg" alt="Reading at the salon" loading="lazy" />
+          <p class="gallery-item-caption">At the reading</p>
+        </div>
+
+        <div class="gallery-item gi-6 reveal" data-src="images/salon5.jpeg" data-caption="At the reading — Prizren, August 2025">
+          <img src="images/salon5.jpeg" alt="Reading at the salon" loading="lazy" />
+          <p class="gallery-item-caption">At the reading</p>
+        </div>
+
+        <div class="gallery-item gi-7 reveal" data-src="images/gathering.jpeg" data-caption="After the salon — Prizren, August 2025">
+          <img src="images/gathering.jpeg" alt="After the salon" loading="lazy" />
+          <p class="gallery-item-caption">After the salon</p>
+        </div>
+
+        <div class="gallery-item gi-8 reveal" data-src="images/dinner.jpeg" data-caption="Dinner at Hani i Vjeter — Prizren, August 2025">
+          <img src="images/dinner.jpeg" alt="Dinner at Hani i Vjeter" loading="lazy" />
+          <p class="gallery-item-caption">Dinner at Hani i Vjeter</p>
+        </div>
+
+        <div class="gallery-item gi-9 reveal" data-src="images/extra1.jpeg" data-caption="At BarAca — August 2025">
+          <img src="images/extra1.jpeg" alt="At BarAca" loading="lazy" />
+          <p class="gallery-item-caption">At BarAca</p>
+        </div>
+
+        <div class="gallery-item gi-10 reveal" data-src="images/extra2.jpeg" data-caption="At BarAca — August 2025">
+          <img src="images/extra2.jpeg" alt="At BarAca" loading="lazy" />
+          <p class="gallery-item-caption">At BarAca</p>
+        </div>
+
+        <div class="gallery-item gi-11 reveal" data-src="images/extra3.jpeg" data-caption="At BarAca — August 2025">
+          <img src="images/extra3.jpeg" alt="At BarAca" loading="lazy" />
+          <p class="gallery-item-caption">At BarAca</p>
+        </div>
+
+        <div class="gallery-item gi-12 reveal" data-src="images/extra4.jpeg" data-caption="At BarAca — August 2025">
+          <img src="images/extra4.jpeg" alt="At BarAca" loading="lazy" />
+          <p class="gallery-item-caption">At BarAca</p>
+        </div>
+
+      </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose">×</button>
+    <img src="" alt="" id="lightboxImg" />
+    <p class="lightbox-caption" id="lightboxCaption"></p>
+  </div>
+
+  <!-- REGISTER -->
+  <div class="register-section" id="register">
+    <div style="position:relative; z-index:1; max-width:600px; margin:0 auto; text-align:center;">
+      <p class="section-label reveal">Join Us</p>
+      <h2 class="section-title reveal">Register for the<br /><em style="color:var(--gold);">2026 Salon</em></h2>
+      <p class="reveal" style="margin-bottom:2rem; color:rgba(253,246,236,0.75);">
+        The Salon is free and open to all. Register below so we can keep you informed.
+      </p>
+      <form action="https://formsubmit.co/mikra.namani@gmail.com" method="POST" style="text-align:left;">
+        <input type="hidden" name="_subject" value="Prizren Literary Salon 2026 — New Registration" />
+        <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_next" value="https://www.prizrensalon.org" />
+        <div class="form-row" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+          <div class="form-group">
+            <label for="reg-name" style="display:block; font-size:0.75rem; letter-spacing:0.1em; color:rgba(253,246,236,0.6); margin-bottom:0.4rem;">Full Name</label>
+            <input type="text" id="reg-name" name="name" placeholder="Your name" required
+              style="width:100%; padding:0.7rem 1rem; background:rgba(253,246,236,0.08); border:1px solid rgba(253,246,236,0.2); color:var(--parchment); font-family:inherit; font-size:1rem;" />
+          </div>
+          <div class="form-group">
+            <label for="reg-email" style="display:block; font-size:0.75rem; letter-spacing:0.1em; color:rgba(253,246,236,0.6); margin-bottom:0.4rem;">Email</label>
+            <input type="email" id="reg-email" name="email" placeholder="your@email.com" required
+              style="width:100%; padding:0.7rem 1rem; background:rgba(253,246,236,0.08); border:1px solid rgba(253,246,236,0.2); color:var(--parchment); font-family:inherit; font-size:1rem;" />
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label for="reg-city" style="display:block; font-size:0.75rem; letter-spacing:0.1em; color:rgba(253,246,236,0.6); margin-bottom:0.4rem;">City / Country</label>
+          <input type="text" id="reg-city" name="city" placeholder="e.g. New York, USA"
+            style="width:100%; padding:0.7rem 1rem; background:rgba(253,246,236,0.08); border:1px solid rgba(253,246,236,0.2); color:var(--parchment); font-family:inherit; font-size:1rem;" />
+        </div>
+        <div class="form-group" style="margin-bottom:1.5rem;">
+          <label for="reg-note" style="display:block; font-size:0.75rem; letter-spacing:0.1em; color:rgba(253,246,236,0.6); margin-bottom:0.4rem;">Anything you’d like to share? <span style="opacity:0.5;">(optional)</span></label>
+          <textarea id="reg-note" name="note" rows="3" placeholder="How did you hear about us, or any questions…"
+            style="width:100%; padding:0.7rem 1rem; background:rgba(253,246,236,0.08); border:1px solid rgba(253,246,236,0.2); color:var(--parchment); font-family:inherit; font-size:1rem; resize:vertical;"></textarea>
+        </div>
+        <div style="text-align:center;">
+          <button type="submit" class="btn btn-outline" style="width:100%; padding:1rem;">Register</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-section" id="contact">
+    <div class="contact-inner">
+      <div class="reveal">
+        <p class="section-label">Get in Touch</p>
+        <h2 class="section-title">Write<br /><em>to us</em></h2>
+        <div class="contact-info">
+          <p>
+            Feel free to drop us a line and inquire about the Salon, propose a partnership, tell us about writers we should consider inviting to read, etc. Always open to ideas and conversations in good faith. We’ll respond as soon as possible. Thanks much.
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="contact-form">
+          <div class="form-success" id="formSuccess">
+            <p class="success-icon">❖</p>
+            <p>Your message has been received.</p>
+            <small>We’ll be in touch within five working days.</small>
+          </div>
+
+          <form action="https://formsubmit.co/mikra.namani@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="Prizren Literary Salon inquiry" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_next" value="https://www.prizrensalon.org" />
+            <div class="form-row">
+              <div class="form-group">
+                <label for="cf-name">Name</label>
+                <input type="text" id="cf-name" name="name" placeholder="Your name" required />
+              </div>
+              <div class="form-group">
+                <label for="cf-email">Email</label>
+                <input type="email" id="cf-email" name="email" placeholder="your@email.com" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="cf-subject">Subject</label>
+              <select id="cf-subject" name="subject">
+                <option value="" disabled selected>Select a subject…</option>
+                <option value="attend">Attending the Salon</option>
+                <option value="press">Press &amp; Media</option>
+                <option value="partner">Partnerships &amp; Sponsorship</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="cf-message">Message</label>
+              <textarea id="cf-message" name="message" rows="5" placeholder="Tell us about yourself or your inquiry…"></textarea>
+            </div>
+
+            <button class="form-submit" type="submit">Send Message</button>
+            <p class="form-note">Your information is used solely to respond to this inquiry.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <p class="footer-brand">Prizren Literary Salon</p>
+        <p class="footer-tagline">
+          An annual gathering of readers and writers<br />
+          in Prizren, Kosovo — every August.
+        </p>
+      </div>
+      <div>
+        <p class="footer-heading">Navigate</p>
+        <ul class="footer-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#program">Program</a></li>
+          <li><a href="#readers">Readers</a></li>
+          <li><a href="#venue">Venue</a></li>
+          <li><a href="#register">Register</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Follow</p>
+        <ul class="footer-links">
+          <li><a href="https://x.com/mikra_namani" target="_blank" rel="noopener">Follow us on X (Twitter)</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Prizren Literary Salon · www.prizrensalon.org</span>
+      <span style="font-style:italic; font-family:'Cormorant Garamond',serif;">Prizren, Kosovo</span>
+    </div>
+  </footer>
+
+  <!-- BIO MODAL -->
+  <div id="bio-modal" role="dialog" aria-modal="true" aria-labelledby="bioModalName">
+    <div class="bio-modal-inner">
+      <button class="bio-modal-close" id="bioModalClose" aria-label="Close">&times;</button>
+      <div class="bio-modal-header">
+        <div class="bio-modal-portrait">
+          <img id="bioModalImg" src="" alt="" />
+        </div>
+        <div>
+          <p class="bio-modal-name" id="bioModalName"></p>
+          <p class="bio-modal-origin" id="bioModalOrigin"></p>
+        </div>
+      </div>
+      <p class="bio-modal-text" id="bioModalText"></p>
+    </div>
+  </div>
+
+  <script>
+    // ── SCROLL REVEAL ──
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const siblings = [...entry.target.parentElement.querySelectorAll('.reveal')];
+          const idx = siblings.indexOf(entry.target);
+          setTimeout(() => entry.target.classList.add('visible'), idx * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // ── LIGHTBOX ──
+    const lightbox     = document.getElementById('lightbox');
+    const lightboxImg  = document.getElementById('lightboxImg');
+    const lightboxCap  = document.getElementById('lightboxCaption');
+    const lightboxClose = document.getElementById('lightboxClose');
+
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      item.addEventListener('click', () => {
+        lightboxImg.src = item.dataset.src;
+        lightboxImg.alt = item.dataset.caption || '';
+        lightboxCap.textContent = item.dataset.caption || '';
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+      lightboxImg.src = '';
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+    // ── BIO MODAL ──
+    const BIOS = {
+      'christian-lorentzen': {
+        name: 'Christian Lorentzen',
+        origin: 'New York City',
+        img: 'images/christian-lorentzen.jpeg',
+        text: 'Christian Lorentzen is a literary critic whose work has appeared in many literary journals and magazines including The New York Times, Paris Review, London Review of Books, and elsewhere.'
+      },
+      'ryan-ruby': {
+        name: 'Ryan Ruby',
+        origin: 'Berlin',
+        img: 'images/ryan-ruby.jpeg',
+        text: 'Ryan Ruby is a critic, novelist, and essayist whose writing appears in major outlets including the New York Times, POETRY, the New Left Review and elsewhere. He is the author of the innovative verse&#8209;essay <em>Context Collapse</em>, and the novel <em>The Zero and the One</em> (2017).'
+      },
+      'ervina-halili': {
+        name: 'Ervina Halili',
+        origin: 'Prishtina',
+        img: 'images/ervina-halili.jpeg',
+        text: 'Ervina Halili is a writer, poet, and researcher from Prishtina. She wrote her first poem at age eleven during the student protests at the University of Prishtina, now archived at the War Childhood Museum. She is the author of <em>They Are Not My Eyes</em> (2022), <em>The Milk Mountain</em>, and <em>The Octopus\'s Sleep and Amulet</em>, recipient of the National Annual Prize.'
+      },
+      'joshua-furst': {
+        name: 'Joshua Furst',
+        origin: 'New York City',
+        img: 'images/josh-furst.jpeg',
+        text: 'Joshua Furst is a novelist, short&#8209;story writer, and professor of writing at Columbia University\'s School of the Arts. He is the author of the short story collection <em>Short People</em>, and the novels <em>Revolutionaries</em> and <em>The Sabotage Café</em>, which won him the 2008 Grub Street Fiction Prize. Josh lives in New York.'
+      },
+      'suzana-vuljevic': {
+        name: 'Suzana Vuljevic',
+        origin: 'Chicago',
+        img: 'images/suzana-vuljevic.jpeg',
+        text: 'Suzana Vuljevic is a historian, writer, and literary translator from Albanian and the variants of Serbo-Croatian to English. She holds a Ph.D. in History and Comparative Literature from Columbia University. Her work has appeared in both academic and popular venues, including Asymptote, Undark, AGNI, Words Without Borders, and elsewhere. Currently, she teaches in the Albanian and Southeast European studies program at DePaul University in Chicago.'
+      },
+      'mikra-namani': {
+        name: 'Mikra Namani',
+        origin: 'Washington, DC',
+        img: 'images/mikra-namani.jpeg',
+        text: 'Mikra Namani, born and raised in Kosovo, is a fiction writer whose work has been featured in various publications including anthologies (Heresy Press), Harvard Review, Socrates On the Beach, The Washington Post, and others. He holds an MFA from Columbia University\'s School of the Arts, where he was awarded a De Alba Fellowship for his fiction. He lives in Kensington, MD.'
+      },
+      'benjamin-libman': {
+        name: 'Benjamin Libman',
+        origin: 'Paris',
+        img: 'images/benjamin-libman.jpeg',
+        text: 'Benjamin Libman is the author of <em>Voyeur</em>, forthcoming with Coach House Books, and <em>The Third Solitude</em> (2025). He is the translator of two books by Gisèle Sapiro: <em>Can We Separate the Author From the Work?</em> forthcoming with Stanford University Press, and <em>The Sociology of Literature</em> (SUP 2023). He lives in Paris.'
+      },
+      'tobias-ryan': {
+        name: 'Tobias Ryan',
+        origin: 'Wales / France',
+        img: 'images/tobias-ryan.jpeg',
+        text: 'Tobias Ryan is a writer, translator, and editor from Wales (UK), living in France. His writing and translations have appeared in TOLKA Journal, Asymptote, Socrates on the Beach, Hyperion Magazine, and elsewhere. A novella, <em>GLANTZ</em>, was published by Equus Press in 2025. Alongside Yanina Spizzirri, he is Editor-in-Chief of minor literature[s].'
+      },
+      'panagiotis-kehagias': {
+        name: 'Panagiotis Kehagias',
+        origin: 'Athens',
+        img: 'images/panagiotis-kehagias.jpeg',
+        text: 'Panagiotis Kehagias is a writer and translator based in Athens, Greece. His first book was a short story collection, <em>Final Warning</em> (Antipodes, 2016). The first volume of <em>the Sixth Desert</em>, his American trilogy, was published in June 2026 by Eris Press. His translations include William Faulkner\'s <em>As I Lay Dying</em>, Cormac McCarthy\'s <em>Child of God</em>, Greg Jackson\'s <em>Prodigals</em>, Herman Melville\'s <em>Billy Budd</em>, Denis Johnson\'s <em>Train Dreams</em> and <em>Jesus\' Son</em>, as well as Joshua Cohen\'s <em>Moving Kings</em> and <em>The Netanyahus</em>, and Isabella Hammad\'s <em>Recognizing the Stranger</em>. He is the founder of Gennitria Editions, a publishing house based in Athens.'
+      },
+      'lauren-oyler': {
+        name: 'Lauren Oyler',
+        origin: 'Berlin',
+        img: 'images/lauren-oyler.jpeg',
+        text: 'Lauren Oyler is the author of the novel <em>Fake Accounts</em> (2021) and the essay collection <em>No Judgment</em> (2024). Her writing appears regularly in the New Yorker, the New York Times, the London Review of Books, and many other publications, and she is a contributing editor of Harper\'s magazine. She lives in Berlin.'
+      },
+      'ena-selimovic': {
+        name: 'Ena Selimović',
+        origin: 'USA',
+        img: '',
+        text: 'Ena Selimović is a writer, translator, and editor. She co-founded Turkoslavia, a translation collective and journal. Her work has appeared in Words Without Borders, The Los Angeles Review of Books, The Paris Review, Asymptote, and elsewhere. She holds a PhD in comparative literature and has been awarded fellowships from the American Literary Translators Association, the American Council of Learned Societies, and the National Endowment for the Arts. Her most recent translation is Maša Kolanović\'s <em>Underground Barbie</em> (Sandorf Passage, 2025).'
+      }
+    };
+
+    const bioModal      = document.getElementById('bio-modal');
+    const bioModalClose = document.getElementById('bioModalClose');
+    const bioModalImg   = document.getElementById('bioModalImg');
+    const bioModalName  = document.getElementById('bioModalName');
+    const bioModalOrigin = document.getElementById('bioModalOrigin');
+    const bioModalText  = document.getElementById('bioModalText');
+
+    document.querySelectorAll('.reader-card[data-bio-key]').forEach(card => {
+      card.addEventListener('click', () => {
+        const bio = BIOS[card.dataset.bioKey];
+        if (!bio) return;
+        const portraitSrc = bio.img || '';
+        bioModalImg.src              = portraitSrc;
+        bioModalImg.alt              = bio.name;
+        bioModalImg.style.display    = portraitSrc ? '' : 'none';
+        bioModalImg.parentElement.style.display = portraitSrc ? '' : 'none';
+        bioModalName.textContent   = bio.name;
+        bioModalOrigin.textContent = bio.origin;
+        bioModalText.innerHTML     = bio.text;
+        bioModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeBioModal() {
+      bioModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    bioModalClose.addEventListener('click', closeBioModal);
+    bioModal.addEventListener('click', e => { if (e.target === bioModal) closeBioModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeBioModal(); } });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
