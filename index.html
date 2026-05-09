@@ -1262,73 +1262,37 @@
           <div class="program-event">
             <p class="event-time">18:00</p>
             <p class="event-title">Reading at BarAca</p>
-            <p class="event-meta">Readers: TBD</p>
-            <p class="event-meta" style="margin-top:0.4rem; color:var(--gold); letter-spacing:0.05em;">Open to Public</p>
-          </div>
-          <img src="images/baraca.jpeg" alt="BarAca at night, Prizren old bazaar" style="width:100%;margin-top:1.2rem;display:block;" />
-        </div>
+            <p class="event-meta">Readers: TBD</Still failing. The fastest fix for you right now is to go directly to GitHub and update the file. Here's exactly what to do:
 
-      </div>
+1. Go to **github.com/prizrensalon/prizrensalon**
+2. Click **index.html**
+3. Click the **pencil icon** (Edit this file)
+4. Press **Ctrl+F** and search for `Readers: TBD`
+5. Replace that entire line with:
+```
+<p class="event-meta"><a href="#readers-2026" style="color:var(--gold); text-decoration:underline; text-underline-offset:3px;">The 2026 Lineup</a></p>
+```
+6. Then search for `<!-- READERS -->` and replace the block starting with `<section id="readers">` down to and including the `<h2 class="section-title reveal">Readers from the` line with this:
+
+```html
+<section id="readers">
+
+    <!-- 2026 Edition -->
+    <div id="readers-2026" style="margin-bottom:5rem;">
+      <p class="section-label reveal">2026 Edition</p>
+      <h2 class="section-title reveal">The 2026<br /><em>Lineup</em></h2>
+      <p class="reveal" style="text-align:center; font-style:italic; color:var(--stone); margin-top:1rem;">
+        Readers will be announced in the coming weeks.
+      </p>
     </div>
-  </div>
 
-  <!-- READERS -->
-  <section id="readers">
-    <p class="section-label reveal">2025 Readers</p>
-    <h2 class="section-title reveal">Readers from the<br /><em>2025 edition</em></h2>
+    <!-- 2025 Edition -->
+    <div style="border-top:1px solid rgba(155,74,30,0.15); padding-top:4rem;">
+      <p class="section-label reveal">2025 Edition</p>
+      <h2 class="section-title reveal">Readers from the<br /><em>2025 edition</em></h2>
+```
 
-    <div class="readers-grid">
-
-      <div class="reader-card reveal" data-bio-key="christian-lorentzen">
-        <div class="reader-portrait">
-          <img src="images/christian-lorentzen.jpeg" alt="Christian Lorentzen" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />
-        </div>
-        <p class="reader-name">Christian Lorentzen</p>
-        <p class="reader-origin">New York City</p>
-      </div>
-
-      <div class="reader-card reveal" data-bio-key="ryan-ruby">
-        <div class="reader-portrait">
-          <img src="images/ryan-ruby.jpeg" alt="Ryan Ruby" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />
-        </div>
-        <p class="reader-name">Ryan Ruby</p>
-        <p class="reader-origin">Berlin</p>
-      </div>
-
-      <div class="reader-card reveal" data-bio-key="ervina-halili">
-        <div class="reader-portrait">
-          <img src="images/ervina-halili.jpeg" alt="Ervina Halili" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />
-        </div>
-        <p class="reader-name">Ervina Halili</p>
-        <p class="reader-origin">Prishtina</p>
-      </div>
-
-      <div class="reader-card reveal" data-bio-key="joshua-furst">
-        <div class="reader-portrait">
-          <img src="images/josh-furst.jpeg" alt="Joshua Furst" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />
-        </div>
-        <p class="reader-name">Joshua Furst</p>
-        <p class="reader-origin">New York City</p>
-      </div>
-
-      <div class="reader-card reveal" data-bio-key="suzana-vuljevic">
-        <div class="reader-portrait">
-          <img src="images/suzana-vuljevic.jpeg" alt="Suzana Vuljevic" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />
-        </div>
-        <p class="reader-name">Suzana Vuljevic</p>
-        <p class="reader-origin">Chicago</p>
-      </div>
-
-      <div class="reader-card reveal" data-bio-key="mikra-namani">
-        <div class="reader-portrait">
-          <img src="images/mikra-namani.jpeg" alt="Mikra Namani" style="width:100%;height:100%;object-fit:cover;object-position:center top;border-radius:50%;" />
-        </div>
-        <p class="reader-name">Mikra Namani</p>
-        <p class="reader-origin">Washington, DC</p>
-      </div>
-
-    </div>
-  </section>
+7. Scroll to the bottom, click **Commit changes**
 
   <!-- VENUE -->
   <div class="venue-section" id="venue">
