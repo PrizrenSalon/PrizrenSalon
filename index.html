@@ -332,67 +332,29 @@
       padding: 0 2rem;
     }
 
-    .program-section .section-title { color: #f5ede0; color: var(--parchment); }
     .program-section .section-label { color: #c8922a; color: var(--gold); }
 
-    .program-days {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2px;
-      margin-top: 3rem;
-    }
-
-    .program-day {
-      background: rgba(253,246,236,0.04);
-      padding: 2.5rem 2rem;
-      border-top: 1.5px solid rgba(200,146,42,0.3);
-      transition: background 0.3s;
-    }
-
-    .program-day:hover { background: rgba(253,246,236,0.07); }
-
-    .day-label {
-      font-family: 'Cinzel', serif;
-      font-size: 0.68rem;
-      letter-spacing: 0.25em;
-      color: #c8922a;
-      color: var(--gold);
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
-    }
-
-    .day-date {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.4rem;
-      font-weight: 300;
+    .program-detail {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.25rem;
+      line-height: 1.85;
       color: #f5ede0;
       color: var(--parchment);
-      line-height: 1;
-      margin-bottom: 1.2rem;
+      margin-top: 1.5rem;
+      max-width: 700px;
     }
 
-    .program-event {
-      padding: 0.7rem 0;
-      border-bottom: 1px solid rgba(253,246,236,0.08);
-    }
-
-    .event-time {
-      font-size: 0.8rem;
+    .program-lineup-link {
+      color: #c8922a;
       color: var(--gold);
-      letter-spacing: 0.05em;
-      margin-bottom: 0.15rem;
+      text-decoration: underline;
+      text-underline-offset: 3px;
     }
 
-    .event-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-style: italic;
-      color: var(--parchment);
-    }
-
-    .event-meta {
-      font-size: 0.85rem;
-      color: rgba(253,246,236,0.5);
+    .program-baraca {
+      width: 100%;
+      display: block;
+      margin-top: 2.5rem;
     }
 
     /* ── READERS ── */
@@ -1215,19 +1177,8 @@
   <div class=”program-section” id=”program”>
     <div class=”program-inner”>
       <p class=”section-label reveal”>2026 Program</p>
-      <h2 class=”section-title reveal”>Reading at BarAca,<br /><em>8 August</em></h2>
-
-      <div class=”program-day reveal” style=”margin-top:3rem; width:100%;”>
-        <p class=”day-label”>Saturday</p>
-        <p class=”day-date”>August 8</p>
-        <div class=”program-event” style=”margin-top:1.2rem;”>
-          <p class=”event-time”>18:00</p>
-          <p class=”event-title”>Reading at BarAca</p>
-          <p class=”event-meta”><a href=”#readers-2026” style=”color:var(--gold); text-decoration:underline; text-underline-offset:3px;”>The 2026 Lineup</a></p>
-          <p class=”event-meta” style=”margin-top:0.4rem; color:var(--gold); letter-spacing:0.05em;”>Open to Public</p>
-        </div>
-        <img src=”images/baraca.jpeg” alt=”BarAca at night, Prizren old bazaar” style=”width:100%; margin-top:1.8rem; display:block;” />
-      </div>
+      <p class=”program-detail reveal”>Reading will take place at BarAca on Saturday, Aug. 8, 2026 at 18:00. Open to Public. <a href=”#readers-2026” class=”program-lineup-link”>See the lineup below</a>.</p>
+      <img src=”images/baraca.jpeg” alt=”BarAca at night, Prizren old bazaar” class=”program-baraca reveal” />
     </div>
   </div>
 
