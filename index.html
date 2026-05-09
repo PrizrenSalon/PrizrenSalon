@@ -1611,6 +1611,7 @@
       <div class="bio-modal-header">
         <div class="bio-modal-portrait">
           <img id="bioModalImg" src="" alt="" />
+          <p id="bioModalPhotoCredit" style="font-size:0.65rem; color:rgba(245,237,224,0.5); margin-top:0.4rem; text-align:center; display:none;"></p>
         </div>
         <div>
           <p class="bio-modal-name" id="bioModalName"></p>
@@ -1722,6 +1723,7 @@
         name: 'Lauren Oyler',
         origin: 'Berlin',
         img: 'images/lauren-oyler.jpeg',
+        photo_credit: 'Photo credit: Carleen Coulter',
         text: 'Lauren Oyler is the author of the novel <em>Fake Accounts</em> (2021) and the essay collection <em>No Judgment</em> (2024). Her writing appears regularly in the New Yorker, the New York Times, the London Review of Books, and many other publications, and she is a contributing editor of Harper\'s magazine. She lives in Berlin.'
       },
       'ena-selimovic': {
@@ -1738,12 +1740,13 @@
       }
     };
 
-    const bioModal      = document.getElementById('bio-modal');
-    const bioModalClose = document.getElementById('bioModalClose');
-    const bioModalImg   = document.getElementById('bioModalImg');
-    const bioModalName  = document.getElementById('bioModalName');
-    const bioModalOrigin = document.getElementById('bioModalOrigin');
-    const bioModalText  = document.getElementById('bioModalText');
+    const bioModal           = document.getElementById('bio-modal');
+    const bioModalClose      = document.getElementById('bioModalClose');
+    const bioModalImg        = document.getElementById('bioModalImg');
+    const bioModalName       = document.getElementById('bioModalName');
+    const bioModalOrigin     = document.getElementById('bioModalOrigin');
+    const bioModalText       = document.getElementById('bioModalText');
+    const bioModalPhotoCredit = document.getElementById('bioModalPhotoCredit');
 
     document.querySelectorAll('.reader-card[data-bio-key]').forEach(card => {
       card.addEventListener('click', () => {
@@ -1757,6 +1760,12 @@
         bioModalName.textContent   = bio.name;
         bioModalOrigin.textContent = bio.origin;
         bioModalText.innerHTML     = bio.text;
+        if (bio.photo_credit) {
+          bioModalPhotoCredit.textContent = bio.photo_credit;
+          bioModalPhotoCredit.style.display = '';
+        } else {
+          bioModalPhotoCredit.style.display = 'none';
+        }
         bioModal.classList.add('open');
         document.body.style.overflow = 'hidden';
       });
